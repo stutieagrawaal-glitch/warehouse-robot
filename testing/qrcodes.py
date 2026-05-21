@@ -7,12 +7,12 @@ os.makedirs("qrcodes", exist_ok=True)
 
 data = "SHELF: A1"
 img = qrcode.make(data)
-img.save("testing\qrcodes\shelf_a1.png")
+img.save("testing\shelf_a1.png")
 
 data2 = "ITEM: item101"
 img2 = qrcode.make(data2)
-img2.save("testing\qrcodes\item101.png")
+img2.save("testing\item101.png")
 
 data = "ITEM: item102"
 img = qrcode.make(data)
-img.save("testing\qrcodes\item102.png")
+img.save("testing\item102.png")
