@@ -7,7 +7,7 @@ from datetime import datetime
 # Create folder if it doesn't exist
 os.makedirs("qr_codes", exist_ok=True)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 detector = cv2.QRCodeDetector()
 with open("warehouse.json", "r") as file:
     warehouse = json.load(file)   #json file --> python dict
@@ -88,6 +88,7 @@ while True:
         with open("logs.json", "w") as file:   #write back with new log
             json.dump(logs, file, indent=4) 
         print("log updated.")
+        time.sleep(2)
 
             # Save image
             # cv2.imwrite(filename, frame)
