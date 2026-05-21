@@ -17,6 +17,7 @@ if not os.path.exists("logs.json"):
 
 scanned_data = set()
 current_shelf = None  #starts empty until qr is scanned
+status = None
 
 while True:
     ret, frame = cap.read()
