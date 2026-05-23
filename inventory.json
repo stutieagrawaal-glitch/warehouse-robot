@@ -1,0 +1,17 @@
+{
+    "item102": {
+        "current_shelf": "B1",
+        "status": "correct",
+        "last_updated": "2026-05-23 13:33:38"
+    },
+    "item101": {
+        "current_shelf": "A1",
+        "status": "correct",
+        "last_updated": "2026-05-23 13:19:45"
+    },
+    "item202": {
+        "current_shelf": "B1",
+        "status": "misplaced",
+        "last_updated": "2026-05-23 13:33:36"
+    }
+}

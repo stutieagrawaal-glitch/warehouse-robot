@@ -7,17 +7,22 @@ from datetime import datetime
 # Create folder if it doesn't exist
 os.makedirs("qr_codes", exist_ok=True)
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 detector = cv2.QRCodeDetector()
-with open("warehouse.json", "r") as file:
-    warehouse = json.load(file)   #json file --> python dict
-if not os.path.exists("logs.json"):
-    with open("logs.json", "w") as file:
-        json.dump([], file)
-
 scanned_data = set()
 current_shelf = None  #starts empty until qr is scanned
 status = None
+
+with open("warehouse.json", "r") as file:
+    warehouse = json.load(file)   #json file --> python dict
+
+if not os.path.exists("inventory.json"):
+    with open("inventory.json", "w") as file:
+        json.dump({}, file)   #empty dict for inventory
+
+if not os.path.exists("logs.json"):
+    with open("logs.json", "w") as file:
+        json.dump([], file)
 
 while True:
     ret, frame = cap.read()
@@ -35,7 +40,6 @@ while True:
 
             try: 
                 qr_type, qr_value = data.split(":")
-
                 qr_type = qr_type.strip()
                 qr_value = qr_value.strip()
             except ValueError:
@@ -51,7 +55,13 @@ while True:
                 else:
                     print(f"item detected: {qr_value} on shelf {current_shelf}")
 
-                    expected_item = warehouse.get(current_shelf)
+                    expected_item = warehouse.get(current_shelf, [])
+
+                    found_shelf = None    #contains where item should belong
+                    for shelf, items in warehouse.items():
+                        if qr_value in items:
+                            found_shelf = shelf
+                            break
 
                     if qr_value in expected_item:
                         status = "correct"
@@ -71,6 +81,20 @@ while True:
                             print(f"item belongs to shelf {found_shelf}.")
                         else:
                             print("item not found in warehouse data.")
+
+                    with open("inventory.json", "r") as file:
+                        inventory = json.load(file)   #load inventory data
+    
+                        inventory[qr_value] = {
+                            "current_shelf": current_shelf,
+                            "status": status,
+                            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        }
+
+                    with open ("inventory.json", "w") as file:
+                        json.dump(inventory, file, indent=4)   #write back inventory data
+                    print("inventory updated.")
+
             else:
                 print("Unknown QR type. Expected 'SHELF' or 'ITEM'.")
 
@@ -92,9 +116,7 @@ while True:
 
             # Save image
             # cv2.imwrite(filename, frame)
-    else:
-        print("unknown qr type use SHELF: shelfname or ITEM: itemname")
-        scanned_data.add(data)
+
 
         # else:
         #     print("Duplicate ignored:", data)
@@ -106,3 +128,20 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+
+with open("inventory.json", "r") as file:
+    inventory = json.load(file)
+
+missing_items = []
+
+for shelf, items in warehouse.items():
+    for item in items:
+        if item not in inventory or inventory[item]["status"] != "correct":
+            missing_items.append({
+                "item": item,
+                "expected_shelf": shelf,
+                "status": inventory.get(item, {}).get("status", "missing")
+            })
+print("\nMissing/Misplaced Items:")
+for item in missing_items:
+    print(f"Item: {item['item']}, Expected Shelf: {item['expected_shelf']}, Status: {item['status']}")

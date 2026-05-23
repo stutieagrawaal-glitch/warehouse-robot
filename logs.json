@@ -1,44 +1,32 @@
 [
     {
-        "item": "A1",
-        "shelf": "A1",
+        "item": "B1",
+        "shelf": "B1",
         "status": null,
-        "time": "2026-05-21 17:22:30"
+        "time": "2026-05-23 13:33:28"
     },
     {
-        "item": "A1",
-        "shelf": "A1",
-        "status": null,
-        "time": "2026-05-21 17:23:02"
+        "item": "item202",
+        "shelf": "B1",
+        "status": "misplaced",
+        "time": "2026-05-23 13:33:31"
     },
     {
-        "item": "item101",
-        "shelf": null,
-        "status": null,
-        "time": "2026-05-21 17:27:07"
-    },
-    {
-        "item": "item101",
-        "shelf": null,
-        "status": null,
-        "time": "2026-05-21 17:27:13"
-    },
-    {
-        "item": "item101",
-        "shelf": null,
-        "status": null,
-        "time": "2026-05-21 17:27:26"
-    },
-    {
-        "item": "A1",
-        "shelf": "A1",
-        "status": null,
-        "time": "2026-05-21 17:27:39"
-    },
-    {
-        "item": "item101",
-        "shelf": "A1",
+        "item": "item102",
+        "shelf": "B1",
         "status": "correct",
-        "time": "2026-05-21 17:27:47"
+        "time": "2026-05-23 13:33:33"
+    },
+    {
+        "item": "item202",
+        "shelf": "B1",
+        "status": "misplaced",
+        "time": "2026-05-23 13:33:36"
+    },
+    {
+        "item": "item102",
+        "shelf": "B1",
+        "status": "correct",
+        "time": "2026-05-23 13:33:38"
     }
 ]
