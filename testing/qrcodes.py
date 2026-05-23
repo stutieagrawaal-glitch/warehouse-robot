@@ -4,23 +4,22 @@ import os
 
 # Create folder if it doesn't exist
 os.makedirs("qrcodes", exist_ok=True)
-
-data = "SHELF: A1"
-img = qrcode.make(data)
-img.save("testing\shelf_a1.png")
-
-data = "SHELF: B1"
-img = qrcode.make(data)
-img.save("testing\shelf_b1.png")
-
-data2 = "ITEM: item101"
-img2 = qrcode.make(data2)
-img2.save("testing\item101.png")
-
-data = "ITEM: item102"
-img = qrcode.make(data)
-img.save("testing\item102.png")
-
-data = "ITEM: item202"
-img = qrcode.make(data)
-img.save("testing\item202.png")
+type = input("what type of qr code do you want to generate? (SHELF or ITEM): ").upper()
+n = int(input("how many qr codes do you want to generate? "))
+while True:
+    for i in range(n):
+        if type == "SHELF":
+            row = chr(65 + i) #A, B, C, D, E
+            col = (i % 10) + 1 #1, 2, 3, 4, 5
+            data = f"SHELF: {row}{col}"
+        elif type == "ITEM":
+            data = f"ITEM: Item_{101+ i}"
+        else:
+            print("Invalid type. Please choose 'SHELF' or 'ITEM'.")
+            break
+        img = qrcode.make(data)
+        img.save(f"qrcodes/{type}_{i+1}.png")
+        print(f"Generated QR code: {data} saved as qrcodes/{type}_{i+1}.png")
+    cont = input("Do you want to generate more QR codes? (yes/no): ").lower()
+    if cont != "yes":
+        break
